@@ -10,8 +10,20 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Aa3791
+    command:
+      - '-c'
+      - 'logging_collector=on'
+      - '-c'
+      - 'log_directory=/var/log/postgresql'
+      - '-c'
+      - 'log_file_mode=0640'
+      - '-c'
+      - 'log_min_messages=info'
+      - '-c'
+      - 'log_statements=all'
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      - postgres-logs:/var/log/postgresql
 
 volumes:
   postgres-data:
@@ -20,3 +32,10 @@ volumes:
       type: none
       o: bind
       device: './volume/data'
+
+  postgres-logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: './volume/logs'

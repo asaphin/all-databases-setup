@@ -11,6 +11,10 @@ services:
       MYSQL_ROOT_PASSWORD: Aa3791
     volumes:
       - mysql-data:/var/lib/mysql
+      - type: bind
+        source: ./volume/config/my.cnf
+        target: /etc/my.cnf
+        read_only: true
 
 volumes:
   mysql-data:
@@ -19,3 +23,10 @@ volumes:
       type: none
       o: bind
       device: './volume/data'
+
+  mysql-log:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: './volume/log'

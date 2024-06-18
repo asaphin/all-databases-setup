@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  fdb:
+    image: foundationdb/foundationdb:latest
+    container_name: foundationdb
+    restart: always
+    network_mode: host
+    pid: host
+    environment:
+      FDB_NETWORKING_MODE: "container"
+      FDB_PUBLIC_IP: "auto"
+      FDB_MACHINE_ID: "docker"
+      FDB_DATACENTER_ID: "dc1"
+    volumes:
+      - fdb-data:/var/fdb/data
+      - fdb-config:/var/fdb/config
+
+volumes:
+  fdb-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: './volume/data'
+
+
+  fdb-config:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: './volume/config'
